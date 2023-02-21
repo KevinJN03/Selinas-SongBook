@@ -1,0 +1,28 @@
+{
+  "name": "selinas-songbook",
+  "version": "1.0.0",
+  "description": "You are charged with creating an API in which the famed songwriter Selina can read, create, update, and delete songs.\r  While authorized users (band members, legal team, etc) can access these songs, they must be kept safe from rivals and\r  unauthorized musicians.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": { 
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node db/seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KevinJN03/Selinas-SongBook.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KevinJN03/Selinas-SongBook/issues"
+  },
+  "homepage": "https://github.com/KevinJN03/Selinas-SongBook#readme",
+  "dependencies": {
+    "sequelize": "^6.28.0",
+    "sqlite3": "^5.1.4"
+  }
+}
