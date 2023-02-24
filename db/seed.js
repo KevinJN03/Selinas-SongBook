@@ -80,7 +80,7 @@ async function seed(){
 
         
 
-    ])
+    ], { validate: true})
 
    await console.log("Seeding Successful");
 }

@@ -20,7 +20,16 @@ Song.init({
 
     },
     releaseYear: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            check(value){
+                if(value < 1980 || value > 2010){
+                    throw new Error("Enter a Year Between 1980 and 2010")
+                }
+            }
+        }
+
     },
     album: {
         type: DataTypes.STRING,
