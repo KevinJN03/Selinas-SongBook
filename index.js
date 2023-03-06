@@ -24,7 +24,7 @@ const register = async (user, password) => {
     await db.sync();
     try {
         const hashedPw = await hashPassword(password, 9);
-        let {id, username} = await User.create({username: user, password: hashedPw});
+        let {name, id, username} = await User.create({name: name, username: username, password: hashedPw}); 
         // Create JWT token here
 const token = jwt.sign({id, username}, JWT_SECRET);
         return {message: "Thanks for registering! Here is your token", token};
@@ -51,7 +51,7 @@ const login = async (username, password) => {
         console.error(err);
     }
 }
-
+/*
 register(username, plainTextPW)
 .then((result) => {
     console.log(result);
@@ -61,7 +61,7 @@ login(username, plainTextPW)
 .then((result) => {
     console.log(result)
 });
-
+*/
 
 const SALT_COUNT = 10;
 const app = express();
@@ -77,11 +77,22 @@ app.get("/", (req, res) => {
 
 app.get("/user/:id", async (req, res) => {
   const { id } = req.params;
-  if (id != req.user.id) {
-    res.sendStatus(403);
-  }
+
+  try {
   const user = await User.findByPk(id);
-  res.send(user);
+   res.send(user);
+  } catch (error) {
+    console.log(error);
+    res.send(error).sendStatus(403)
+  }
+ 
+});
+
+
+app.get("/Artistmusic/:id", async (req, res) => {
+  const {id} = req.params
+  const songs = await Song.findAll({where:{user_id: id}});
+  res.send(songs);
 });
 
 app.get("/music", async (req, res) => {
@@ -90,29 +101,33 @@ app.get("/music", async (req, res) => {
 });
 
 app.get("/music/:id", async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; 
   if (id != req.user.id) {
     res.sendStatus(403);
   }
-  const song = await Song.findByPk(id);
+  const song = await Song.findByPk(id); 
   res.send(song);
 });
 
-app.post("/music", async (req, res) => {
+app.post("/music", async (req, res) => { 
   const song = await Song.create(req.body, {});
   res.send(song);
 });
 
 app.post("/register", async (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const { name,username, password } = req.body;
     const hashed = await bcrypt.hash(password, SALT_COUNT);
-    await User.create({ username, password: hashed });
+    await User.create({ 
+      name: name,
+      username: username,
+       password: hashed 
+      });
 
-    console.log(req.body);
+    console.log(req.body); 
     res.send(`User "${username}" was successfully created.`);
   } catch (error) {
-    console.error(error);
+    console.error(error); 
     next(error);
   }
 });
