@@ -1,10 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const bcrypt = require('bcrypt');
+
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const User =  require("./User");
-const {sequelize} = require("./sequelize");
+const { User, Song } = require("./models");
+
+const db = require("./db/db");
 
 // Get the secret from the .env file
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -20,7 +21,7 @@ const hashPassword = async (password, saltCount) => {
 
 const register = async (user, password) => {
     // This creates the table, dropping it first if it already existed
-    await sequelize.sync({force: true});
+    await db.sync();
     try {
         const hashedPw = await hashPassword(password, 9);
         let {id, username} = await User.create({username: user, password: hashedPw});
@@ -66,7 +67,7 @@ const SALT_COUNT = 10;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const { User, Song } = require("./models");
+
 
 app.get("/", (req, res) => {
   res.send(
