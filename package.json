@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "node db/seed.js"
+    "seed": "node db/seed.js",
+    "server": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -23,8 +24,10 @@
   "homepage": "https://github.com/KevinJN03/Selinas-SongBook#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
+    "nodemon": "^2.0.21",
     "sequelize": "^6.28.0",
     "sqlite3": "^5.1.4"
   }
