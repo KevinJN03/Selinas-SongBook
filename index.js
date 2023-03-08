@@ -1,17 +1,14 @@
 const express = require("express");
-const bcrypt = require("bcrypt");
 
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const { User, Song } = require("./models");
+const {User, Song} =  require("./models/index");
+const {sequelize} = require("sequelize");
 
-const db = require("./db/db");
 
 // Get the secret from the .env file
 const JWT_SECRET = process.env.JWT_SECRET;
-
-const username = "Selena";
-const plainTextPW = "password";
 
 // Function to hash the paswords
 const hashPassword = async (password, saltCount) => {
@@ -26,7 +23,7 @@ const register = async (user, password) => {
         const hashedPw = await hashPassword(password, 9);
         let {name, id, username} = await User.create({name: name, username: username, password: hashedPw}); 
         // Create JWT token here
-const token = jwt.sign({id, username}, JWT_SECRET);
+        const token = jwt.sign({id, username}, JWT_SECRET);
         return {message: "Thanks for registering! Here is your token", token};
     } catch(err) {
         console.error(err);
@@ -42,7 +39,7 @@ const login = async (username, password) => {
         const isMatch = await bcrypt.compare(password, foundUser.password);
         if(isMatch) {
             // Create JWT token here
-        const token = jwt.sign(username, JWT_SECRET);
+          const token = jwt.sign(username, JWT_SECRET);
             return {message: "Welcome back! Here is your token", token};
         } else {
             return 'Failed';
@@ -51,17 +48,17 @@ const login = async (username, password) => {
         console.error(err);
     }
 }
-/*
-register(username, plainTextPW)
-.then((result) => {
-    console.log(result);
-});
 
-login(username, plainTextPW)
-.then((result) => {
-    console.log(result)
-});
-*/
+
+// register(username, plainTextPW)
+// .then((result) => {
+//     console.log(result);
+// });
+
+// login(username, plainTextPW)
+// .then((result) => {
+//     console.log(result)
+// });
 
 const SALT_COUNT = 10;
 const app = express();
@@ -123,8 +120,6 @@ app.post("/register", async (req, res, next) => {
       username: username,
        password: hashed 
       });
-
-    console.log(req.body); 
     res.send(`User "${username}" was successfully created.`);
   } catch (error) {
     console.error(error); 
