@@ -22,6 +22,14 @@ User.init({
     password: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    isStaff: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
+    isSelena: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
     }
 },{
     sequelize: db,
