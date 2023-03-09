@@ -1,11 +1,20 @@
 const { User, Song} = require('../models/index');
 const db = require('./db');
+const { faker } = require('@faker-js/faker');
+const generateUsers = require('./generateUser')
+
+const randomName = faker.name.fullName(); // Rowan Nikolaus
+const randomEmail = faker.internet.email(); // Kassandra.Haley@erich.biz
+
 
 async function seed(){
 
     await db.sync({
         force: true
     })
+
+    const test = generateUsers(1000)
+    await User.bulkCreate(test)
 
     await Song.bulkCreate([
         {name:"Como la Flor",

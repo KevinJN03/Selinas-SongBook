@@ -1,15 +1,10 @@
 const express = require("express");
-const bcrypt = require('bcrypt');
 require('dotenv').config();
-const jwt = require('jsonwebtoken');
-const {User, Song} =  require("./models/index");
-const {sequelize} = require("sequelize");
+
 const { setUser } = require("./middleware");
 const {musicRouter, userRouter} = require('./routers')
 
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const SALT_COUNT = 10;
 const app = express();
 
 

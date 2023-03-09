@@ -67,7 +67,7 @@ router.post("/login", async (req, res, next) => {
 
 
 router.delete('/delete', async (req,res) => {
-  console.log("User Objext in /User/delete", req.user)
+  console.log("User Object in /User/delete", req.user)
   if (req.user.isSelena == true){
     const {id} = req.body;
     const deletedUser = await User.findByPk(id)
@@ -79,7 +79,7 @@ router.delete('/delete', async (req,res) => {
     res.send({message: "User Deleted", deletedUser})
     return
   }
-  res.send(401)
+  res.sendStatus(401)
 
 })
 
